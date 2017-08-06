@@ -25,7 +25,7 @@ BEGIN {
     # these are volatile global variables
     quote_in_effect = 0; # false
     maybe_escaped_quote_char = 0; # false
-
+    flush=0
 }
 
 function suggest_replacementchar(c) {
@@ -83,6 +83,7 @@ function suggest_replacementchar(c) {
         if (replacementchar != "") printf "%s%s", $0, replacementchar
          else printf "%s%s", $0, RS
     }
+    if (flush) fflush()
 }
 
 (!replace_mode) {
@@ -91,4 +92,5 @@ function suggest_replacementchar(c) {
     gsub(delimiter_code, delimiter);
     gsub(recordsep_code, recordsep);
     print $0
+    if (flush) fflush()
 }
